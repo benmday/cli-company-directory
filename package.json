@@ -1,0 +1,26 @@
+{
+  "name": "challenge-week-12",
+  "version": "1.0.0",
+  "description": "## Your Task",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benmday/challenge-week-12-company-directory.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/benmday/challenge-week-12-company-directory/issues"
+  },
+  "homepage": "https://github.com/benmday/challenge-week-12-company-directory#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.2.5"
+  }
+}
