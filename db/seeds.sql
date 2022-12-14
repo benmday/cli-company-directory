@@ -25,3 +25,26 @@ VALUES
 ('George', 'Rose', 5),
 ('Tony', 'Azito', 2);
 
+UPDATE employees 
+SET manager_id = 4
+WHERE id = 3;
+
+UPDATE employees 
+SET manager_id = 3
+WHERE id = 2;
+
+UPDATE employees 
+SET manager_id = 6
+WHERE id = 7;
+
+UPDATE employees 
+SET manager_id = 5
+WHERE id = 1;
+
+UPDATE employees 
+SET manager_id = 6
+WHERE id = 5;
+
+UPDATE employees 
+SET manager_id = 4
+WHERE id = 6;

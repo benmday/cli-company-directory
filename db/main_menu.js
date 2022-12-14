@@ -26,6 +26,7 @@ function mainMenu() {
         "Add Department",
         "View All Roles",
         "Add Role",
+        "Exit",
       ],
     })
     .then((answers) => {
@@ -51,6 +52,8 @@ function mainMenu() {
         addRole();
       }
       if (answers.selection === "Exit") {
+        console.log("Bye!");
+        db.end();
       }
     });
 }
@@ -146,7 +149,14 @@ async function addEmployee() {
                       WHERE id = ?;`,
                           [choice.manager, rows.length]
                         )
-                        .then(console.log("New employee added!"), mainMenu());
+                        .then(
+                          console.log(
+                            `New employee ${
+                              answers.firstName + " " + answers.lastName
+                            } added!`
+                          ),
+                          mainMenu()
+                        );
                     });
                 })
             );
@@ -154,7 +164,54 @@ async function addEmployee() {
     });
 }
 
-function updateEmployeeRole() {}
+function updateEmployeeRole() {
+  db.promise()
+    .query(`SELECT first_name, last_name, id FROM employees;`)
+    .then(([rows, _fields]) => {
+      const employeeNames = rows.map(({ first_name, last_name, id }) => ({
+        name: first_name + " " + last_name,
+        value: id,
+      }));
+      inquirer
+        .prompt({
+          type: "list",
+          name: "employee",
+          message: "Which employee would you like to update the role of?",
+          choices: employeeNames,
+        })
+        .then((answer) => {
+          db.promise()
+            .query(`SELECT * FROM roles;`)
+            .then(([rows, _fields]) => {
+              const roleNames = rows.map(({ id, name }) => ({
+                name,
+                value: id,
+              }));
+
+              inquirer
+                .prompt([
+                  {
+                    type: "list",
+                    name: "employeeRole",
+                    message:
+                      "What would you like to update this employee's role to?",
+                    choices: roleNames,
+                  },
+                ])
+                .then((choice) => {
+                  db.promise()
+                    .query(
+                      `UPDATE employees
+                SET role_id = ?
+                WHERE id = ?;`,
+                      [choice.employeeRole, answer.employee]
+                    )
+                    .then(console.log("Role updated!"), mainMenu());
+                });
+            });
+        });
+    });
+}
 
 async function viewDepartments() {
   await db
@@ -174,17 +231,13 @@ async function addDepartment() {
       message: "What is the department name?",
     })
     .then((answers) => {
-      db.query(
-        `INSERT INTO departments (name) VALUES (?);`,
-        answers.department,
-        (err, _results) =>
-          err
-            ? console.error(err)
-            : console.log(answers.department + " department added!")
-      );
+      db.promise()
+        .query(`INSERT INTO departments (name) VALUES (?);`, answers.department)
+        .then(
+          console.log(answers.department + " department added!"),
+          mainMenu()
+        );
     });
-
-  mainMenu();
 }
 
 async function viewRoles() {
@@ -242,7 +295,7 @@ function addRole() {
                 console.error(err);
               }
               if (!err) {
-                console.log(`New role added!`);
+                console.log(`New role ${role.name} added!`);
                 mainMenu();
               }
             }
