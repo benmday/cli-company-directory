@@ -27,6 +27,8 @@ To install this app, clone this repo, then open the terminal and run the command
 
 To use this app, open the terminal then run the command node index.js. Once the app has started you will receive a series of prompts. Select the option you prefer, then fill out the remaining prompts if necessary. Once you have reviewed or added the required information, select Exit to end the application.
 
+Walkthrough video: https://drive.google.com/file/d/1SSq0cBIs4Khf1pBIagYODjWZjBWzm049/view
+
 ![gif](Assets/project-gif.gif)
 
 ## Credits
